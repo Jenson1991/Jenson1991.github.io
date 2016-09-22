@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Jenson.Ding的博客</title>
+  <title>归档：2014/8 | 拴萝卜的棍子</title>
   <meta name="author" content="leeluolee">
   
   <meta name="description" content="所有涉及javascript的一切(nodejs, frontend-develop, compile-to-js...etc) 和各种Web相关">
@@ -12,10 +12,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-  <meta property="og:site_name" content="Jenson.Ding的博客"/>
+  <meta property="og:site_name" content="拴萝卜的棍子"/>
 
   <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Jenson.Ding的博客" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="拴萝卜的棍子" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
 
   <script src="/js/jquery.js"></script>
@@ -37,8 +37,8 @@
 
 <body>
   <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Jenson.Ding的博客</a></h1>
-  <h2><a href="/">Jenson.Ding的技术博客</a></h2>
+  <h1><a href="/">拴萝卜的棍子</a></h1>
+  <h2><a href="/">萝卜的技术博客</a></h2>
 </div>
 <nav id="main-nav" class="alignright">
   <ul>
@@ -58,115 +58,52 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="page">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+<h2 class="archive-title">2014/8</h2>
+
+
+  
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
   
   <div class="post-content">
     <header>
       
+        <div class="icon"></div>
+        <time datetime="2014-08-25T01:29:24.000Z"><a href="/2014/08/25/create-a-todomvc-step-by-step/">8月 25 2014</a></time>
+      
       
   
-    <h1 class="title"></h1>
+    <h1 class="title"><a href="/2014/08/25/create-a-todomvc-step-by-step/">一步步教你实现一个todomvc(基于Regularjs)</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <template id="template">
-  <style>
-    :host{
-      
-      box-sizing: border-box;
-      display: inline-block;
-      height: 1em;
-      width: 10em;
-      vertical-align: -0.2em;
-    }
-    .progress-inner-element{
-      height: 100%;
-      width: 100%;
-    }
-  .progress-bar {
-    overflow:hidden;
-    border-radius: 2px;
-    background-color: #eee;
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .progress-value {
-    overflow:hidden;
-    position:relative;
-    background-color: #8cb1b2;
-    height: 100%;
-    width: 50%;
-    
-    box-sizing: border-box;
-    -webkit-transition: width .8s cubic-bezier(0.770, 0.000, 0.175, 1.000);
-  }
-  .progress-value:before{
-    content:"";
-    width:200%;
-    height:200%;
-    position:absolute;
-    background-image:-webkit-linear-gradient(155deg,rgba(255,255,255,0) 10%,rgba(255,255,255,0.6) 50%,rgba(255,255,255,0) 90%);
-    background-image:linear-gradient(155deg,rgba(255,255,255,0) 10%,rgba(255,255,255,0.6) 50%,rgba(255,255,255,0) 90%);
-    top:-200%;
-    left:-200%;
-    -webkit-animation:gleam 3.4s infinite ease-out;
-    animation:gleam 3.4s infinite ease-out;
-  }
+        <h2 id="前言">前言</h2>
+<p>现在市面上充斥了越来越多的javascript框架，给开发者的技术选型带来极大的选择成本，<a href="http://todomvc.com/" target="_blank" rel="external">todomvc</a>在这个环境下应运而生. </p>
+<p>由于todomvc有一个完整的实现定义，它复杂度适中，大概就是平时开发的一个组件的功能复杂度，开发者可以轻松对各个框架的代码做对比，同时由于功能一致，也可以进行各框架之间的<a href="http://regularjs.github.io/perf/todomvc-benchmark/index.html" target="_blank" rel="external">性能对比(当然这个测试案例其实并没有很大的实际意义)</a>. </p>
+<p><img src="http://todomvc.com/site-assets/screenshot.png" alt="todomvc"></p>
 
-    </style>
-      <div class="progress-inner-element">
-      <div class="progress-bar">
-        <div class="progress-value" style="width: 0%;" pseudo="x-progress-value">
-        </div>
-      </div>
-    </div>
-</template>
-
-<script>
-    
-  var proto = Object.create(HTMLElement.prototype);
-  var thisDoc = document.currentScript.ownerDocument;
-
-  function $(sl,ctx){return (ctx||thisDoc).querySelector(sl)}
-  // 继承自HTMLElement
-  var proto = Object.create(HTMLElement.prototype,{
-      position: {
-       get: function(){
-         return this.getAttribute('value') / this.getAttribute('max')
-       }
-      }
-  });
-  // 创建回调
-  proto.createdCallback = function(){
-   
-    var root = this.createShadowRoot();
-    root.applyAuthorStyles = true;
-    root.appendChild( $('#template').content.cloneNode(true)); 
-    this._reset();
-  }
-  // 属性更改回调
-  proto.attributeChangedCallback = function(attrName, oldVal, newVal){
-
-    if(~['max', 'value'].indexOf(attrName)) this._reset(); 
-  }
-  // 重新设置宽度
-  proto._reset = function(){
-    this.shadowRoot.querySelector('.progress-value').style.width = this.position * 100 + '%';
-  }
-  //注册 custom element
-  document.registerElement('nwd-progress', {
-    prototype: proto
-  });
-
-
-</script>
       
     </div>
     <footer>
       
+        
+          <div class="alignleft">
+            <a href="/2014/08/25/create-a-todomvc-step-by-step/#more" class="more-link">Read More</a>
+          </div>
         
         
       
@@ -176,12 +113,15 @@
 </article>
 
 
-<section id="comment">
-  <h1 class="title">留言</h1>
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
-</section>
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
 
 
 </div></div>
@@ -255,7 +195,7 @@ var disqus_shortname = 'leeluolee';
   var dsq = document.createElement('script');
   dsq.type = 'text/javascript';
   dsq.async = true;
-  dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+  dsq.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 }());
 </script>
