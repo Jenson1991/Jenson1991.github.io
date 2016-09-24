@@ -50,7 +50,7 @@ a:hover {
   text-decoration: underline;
 }
 .alignleft {
-  float: left;
+  float: bottom;
 }
 .alignright {
   float: right;
@@ -121,6 +121,7 @@ a:hover {
   font-size: 0.9em;
   line-height: 1;
   margin-top: 10px;
+  margin-bottom: 10px; 
 }
 #header #main-nav {
   font-family: Microsoft Yahei, Helvetica Neue, Helvetica, Arial, sans-serif;
