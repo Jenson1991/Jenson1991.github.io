@@ -4,7 +4,7 @@ title: 丁建明的博客
 ---
 　　
 　　<ul>
-      <p>最新文章</p>
+      <li>最新文章</li>
 　　　　{% for post in site.posts %}
 　　　　<li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
 　　　　{% endfor %}
